@@ -13,7 +13,7 @@
 #include <chrono>
 
 #include <rclcpp/rclcpp.hpp>
-#include "ros2_network/msg/cam_jpeg.hpp"
+#include "cam_msg/msg/cam_jpeg.hpp"
 
 using namespace std::literals;
 
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
     // 7. ROS2 Initialization & create node
     rclcpp::init(argc, argv);
     auto node = rclcpp::Node::make_shared(publisher_name);
-    auto publisher = node->create_publisher<ros2_network::msg::CamJpeg>(publisher_topic, 1);
+    auto publisher = node->create_publisher<cam_msg::msg::CamJpeg>(publisher_topic, 1);
     std::cout << "Node name(" << publisher_name << ") publish data by topic(" << publisher_topic << ")" << std::endl;
 
     // 8. Start loop
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
             sprintf(yearToUsecStr, "%04d%02d%02d%02d%02d%02d%06ld",
                     local->tm_year + 1900, local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec, tv.tv_usec);
 
-            auto msg = ros2_network::msg::CamJpeg();
+            auto msg = cam_msg::msg::CamJpeg();
             msg.yyyymmdd_hhmmss_string = yearToUsecStr;
             msg.unbounded_cam_data.assign(buffer, buffer + buf.bytesused);
             publisher->publish(msg);

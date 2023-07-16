@@ -10,16 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(OpenCV REQUIRED)
-
-set(msg_files
-  "msg/CamJpeg.msg"
-)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
-)
-rosidl_get_typesupport_target(cpp_typesupport_target
-  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+find_package(cam_msg REQUIRED)
 
 add_executable(cam_publisher src/cam_publisher.cpp)
 target_include_directories(cam_publisher PUBLIC
@@ -31,8 +22,8 @@ target_compile_features(cam_publisher PUBLIC c_std_99 cxx_std_17)  # Require C99
 ament_target_dependencies(
   cam_publisher
   "rclcpp"
+  "cam_msg"
 )
-target_link_libraries(cam_publisher "${cpp_typesupport_target}")
 
 add_executable(cam_subscriber_save src/cam_subscriber_save.cpp)
 target_include_directories(cam_subscriber_save PUBLIC
@@ -42,8 +33,9 @@ target_compile_features(cam_subscriber_save PUBLIC c_std_99 cxx_std_17)  # Requi
 ament_target_dependencies(
   cam_subscriber_save
   "rclcpp"
+  "cam_msg"
 )
-target_link_libraries(cam_subscriber_save "${cpp_typesupport_target}" ${OpenCV_LIBRARIES})
+target_link_libraries(cam_subscriber_save ${OpenCV_LIBRARIES})
 
 ament_export_dependencies(rosidl_default_runtime)
 

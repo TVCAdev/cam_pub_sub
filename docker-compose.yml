@@ -23,6 +23,19 @@ services:
     networks:
       - docker_net
 
+  livcam_subscriber_webapi:
+    build:
+      context: .
+    command:
+      - /ros2_ws/start_living_subscriber_webapi.sh
+    volumes:
+      - /mnt/usbdisk1/CAM_DATA/living_cam_data:/ros2_ws/living_cam_data
+    restart: always
+    networks:
+      - docker_net
+    ports:
+      - "5000:5000"
+
 networks:
   docker_net:
     driver: bridge

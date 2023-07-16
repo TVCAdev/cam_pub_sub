@@ -4,7 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/logging.hpp>
 #include <opencv2/opencv.hpp>
-#include "ros2_network/msg/cam_jpeg.hpp"
+#include "cam_msg/msg/cam_jpeg.hpp"
 using std::placeholders::_1;
 using namespace cv;
 namespace fs = std::filesystem;
@@ -34,7 +34,7 @@ public:
                       const char *check_area, const char *check_width, const char *check_height)
         : Node(node_name)
     {
-        subscription_ = this->create_subscription<ros2_network::msg::CamJpeg>(
+        subscription_ = this->create_subscription<cam_msg::msg::CamJpeg>(
             topic_name, 10, std::bind(&CamSubscriberSave::topic_callback, this, _1));
         _save_top_dir = save_top_dir;
         _check_area = convStr2Num(check_area);
@@ -43,7 +43,7 @@ public:
     }
 
 private:
-    void topic_callback(const ros2_network::msg::CamJpeg &msg)
+    void topic_callback(const cam_msg::msg::CamJpeg &msg)
     {
         RCLCPP_INFO(this->get_logger(), "recieved '%s' jpeg data.", msg.yyyymmdd_hhmmss_string.c_str());
 
@@ -118,7 +118,7 @@ private:
         // save current jpeg data as old jpeg data.
         jpeg_old_gray_mat = jpeg_cur_gray_mat.clone();
     }
-    rclcpp::Subscription<ros2_network::msg::CamJpeg>::SharedPtr subscription_;
+    rclcpp::Subscription<cam_msg::msg::CamJpeg>::SharedPtr subscription_;
     cv::Mat jpeg_old_gray_mat;
     std::string _save_top_dir;
     long _check_area;
