@@ -1,6 +1,6 @@
 FROM ros:humble-ros-base
 
-RUN apt update && apt upgrade && apt install -y \
+RUN apt-get update && apt-get install -y \
     libv4l-dev \
     v4l-utils \
     libopencv-dev
