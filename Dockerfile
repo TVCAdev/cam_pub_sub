@@ -1,9 +1,8 @@
 FROM ros:humble-ros-base
 
-RUN apt-get update && apt-get install -y \
-    libv4l-dev \
-    v4l-utils \
-    libopencv-dev
+RUN apt-get update && \
+    apt-get install -y libv4l-dev v4l-utils pip libopencv-dev && \
+    pip3 install Flask
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 

@@ -80,7 +80,7 @@ def flask_func():
         )
 
     # execute flask
-    app.run()
+    app.run(debug=False, host="0.0.0.0")
 
 
 def main(args=None):
